@@ -5,11 +5,11 @@ const router = express.Router();
 
 router.post("/auth/register", registerUser);
 router.post("/auth/login", authMiddleware, loginUser);
-router.get("/users/:id", authMiddleware, getUser);
-router.get("/organisations", authMiddleware, getUserOrganisations);
-router.get("/organisations/:orgId", authMiddleware, getOrganizationById);
-router.post("/organisations", authMiddleware, createOrganization);
-router.post("/organisations/:orgId/users", addUserToOrganization);
+router.get("/api/users/:id", authMiddleware, getUser);
+router.get("/api/organisations", authMiddleware, getUserOrganisations);
+router.get("/api/organisations/:orgId", authMiddleware, getOrganizationById);
+router.post("/api/organisations", authMiddleware, createOrganization);
+router.post("/api/organisations/:orgId/users", addUserToOrganization);
 
 
 

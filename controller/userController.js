@@ -49,10 +49,10 @@ const registerUser = async (req, res) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({
+      return res.status(422).json({
         status: 'Bad request',
         message: 'User with this email already exists',
-        statusCode: 400,
+        statusCode: 422,
       });
     }
 
@@ -71,11 +71,11 @@ const registerUser = async (req, res) => {
     });
 
     // Create a default organization for the user
-    const newOrganization = await prisma.organization.create({
+    const newOrganisation = await prisma.organization.create({
       data: {
        // orgId:,
-        name: `${firstName}'s Organization`,
-        description: `Default organization for ${firstName}`,
+        name: `${firstName}'s Organisation`,
+        description: `Default organisation for ${firstName}`,
         userId: newUser.userId,
       },
     });
@@ -94,22 +94,21 @@ const registerUser = async (req, res) => {
           firstName: newUser.firstName,
           lastName: newUser.lastName,
           email: newUser.email,
-        //   password: newUser.password,
           phone: newUser.phone,
         },
-        organization: {
-            orgId: newOrganization.orgId,
-            name: newOrganization.name,
-            description: newOrganization.description,
-          },
+        // organization: {
+        //     orgId: newOrganization.orgId,
+        //     name: newOrganization.name,
+        //     description: newOrganization.description,
+        //   },
       },
     });
   } catch (error) {
     console.error('Error registering user:', error);
-    return res.status(500).json({
-      status: 'Internal Server Error',
+    return res.status(400).json({
+      status: 'Bad request',
       message: 'Registration unsuccessful',
-      statusCode: 500,
+      statusCode: 400,
     });
   }
 };
@@ -170,10 +169,10 @@ const loginUser = async (req, res) => {
       });
     } catch (error) {
       console.error('Error logging in user:', error);
-      return res.status(500).json({
-        status: 'Internal Server Error',
-        message: 'Login unsuccessful',
-        statusCode: 500,
+      return res.status(401).json({
+        status: 'Bad request',
+        message: 'Authentication failed',
+        statusCode: 401,
       });
     }
   };
@@ -221,7 +220,6 @@ const getUser = async (req, res) => {
       return res.status(200).json({
         status: 'success',
         message: 'User details retrieved successfully',
-        //data: user,
         data: {
             userId: user.userId,
             firstName: user.firstName,
@@ -331,7 +329,7 @@ const getOrganizationById = async (req, res) => {
       // Return the organization details
       return res.status(200).json({
         status: 'success',
-        message: 'Organization retrieved successfully',
+        message: 'Organisation retrieved successfully',
         data: {
           orgId: organization.orgId,
           name: organization.name,
@@ -356,7 +354,7 @@ const createOrganization = async (req, res) => {
     if (!name) {
       return res.status(400).json({
         status: 'Bad Request',
-        message: 'Name is required',
+        message: 'Client Error',
         statusCode: 400,
       });
     }
@@ -379,7 +377,7 @@ const createOrganization = async (req, res) => {
       // Return success response
       return res.status(201).json({
         status: 'success',
-        message: 'Organization created successfully',
+        message: 'Organisation created successfully',
         data: {
           orgId: newOrganization.orgId,
           name: newOrganization.name,
@@ -388,9 +386,10 @@ const createOrganization = async (req, res) => {
       });
     } catch (error) {
       console.error('Error creating organization:', error);
-      return res.status(500).json({
-        status: 'Internal Server Error',
-        message: 'Failed to create organization',
+      return res.status(400).json({
+        status: 'Bad Request',
+        message: 'Client Error',
+        statusCode: 400,
       });
     }
   };
@@ -435,7 +434,7 @@ const addUserToOrganization = async (req, res) => {
   
       return res.status(200).json({
         status: 'success',
-        message: 'User added to organization successfully',
+        message: 'User added to organisation successfully',
       });
     } catch (error) {
       console.error('Error adding user to organization:', error);

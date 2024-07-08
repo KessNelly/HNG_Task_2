@@ -4,22 +4,23 @@
   "description": "hng intership task 2",
   "main": "index.js",
   "scripts": {
-    "test":"jest",
+    "test": "jest",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "author": "kessiena",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.4",
-    "prisma": "^5.16.1"
+    "prisma": "^5.16.1",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "@prisma/client": "^5.16.1",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "uuid": "^10.0.0"
   }
